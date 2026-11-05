@@ -213,15 +213,18 @@ Le chemin du média est local au stockage du middleware (`content://` ou fichier
 6. Utilisateurs, rôles, certificats, modération.
 7. Simulateur et tests à grande échelle.
 
-## 10. Points à trancher
+## 10. Points tranchés
 
 1. **Modération vs chiffrement** : les modérateurs peuvent-ils lire les messages privés (`UC`/`MC`) ? Sinon, que rapatrie-t-on ?
-2. `modo_fetch` : messages **envoyés**, **reçus**, ou les deux ?
-3. Un utilisateur connecté ailleurs : refuser le login ou prendre la main ?
-4. Les modérateurs ajoutent-ils des utilisateurs de façon autonome (signature déléguée) ou avec contre-signature admin ?
-5. Disparition de l'admin/perte de clé : prévoir un transfert ou une récupération ?
-6. Limites de taille audio/vidéo acceptables vu le débit BLE ?
-7. L'IDM étant local, faut-il aussi un identifiant global `(UserID émetteur, seq)` pour déduplication ? (proposé en interne : oui)
-8. Durée de rétention des messages en transit (7 jours proposé).
-9. Authentification utilisateur : mot de passe local, PIN, biométrie ?
-10. Cible : iOS à terme ? (impacte le choix du transport BLE).
+2. `modo_fetch` : messages **envoyés** et **reçus**
+3. Un utilisateur connecté ailleurs = prendre la main : sa messagerie devrait se mettre dans le même état que l'autre messagerie, un "merge" est à faire sur leux deux.
+4. Les modérateurs ajoutent-ils des utilisateurs de façon autonome 
+5. Disparition de l'admin/perte de clé : prévoir un transfert ou une récupération ? NON,
+
+NB: le mot de passe de l'administrateur est à fournir à l'instalation du noeud (= instalation de toutes les couches de l'application) ainsi que le nom du réseau (option "créer" = devenir administrateur du réseau).  Un modérateur ou un utilisateur standard doivent fournir un mot de passe egalement à l'installation du noeud et rejoindre un reseau dont le nom sera communiqué par l'administratueur ou visible lors de la découverte d'un autre noeud enregistré sur un résau (option "rejoindre")
+6. Limites de taille audio/vidéo acceptables vu le débit BLE : video  = 5 sec, audio : 30 sec
+7. L'IDM étant local, faut-il aussi un identifiant global `(UserID émetteur, seq)` pour déduplication : oui. D'ailleurs il faut que chaque message soit estampillé de façon unique : numero du message emis par le user (incremental) + numéro du noeud.
+8. Durée de rétention des messages en transit : 7 jours par defaut. Cela doit être le paramètre lors de la création d'un réseau par l'admin
+9. Authentification utilisateur : PIN (mot de passe et PIN sont des synonymes dans ce document)
+10. Cible : uniquement Android
+
